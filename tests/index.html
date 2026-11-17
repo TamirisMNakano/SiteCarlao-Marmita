@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Execução de Testes Automatizados - Marmitas</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .badge-pass {
+      background: #dcfce7;
+      color: #166534;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .badge-fail {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Testes Automatizados - Sabor & Afeto</h1>
+    <p>Executando suite de testes de guardrails, cálculos matemáticos, validação de itens e segurança...</p>
+    <div id="summary" style="font-size: 1.2rem; font-weight: bold; margin: 1rem 0;"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Teste</th>
+          <th>Detalhes</th>
+        </tr>
+      </thead>
+      <tbody id="test-table-body"></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { runAllTests } from "./test-suite.js";
+    const res = runAllTests();
+    const summary = document.getElementById("summary");
+    const tbody = document.getElementById("test-table-body");
+
+    summary.textContent = `Total: ${res.total} | Sucesso: ${res.passed} | Falhas: ${res.failed}`;
+    summary.style.color = res.failed === 0 ? "#15803d" : "#dc2626";
+
+    res.details.forEach(d => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><span class="badge-${d.status.toLowerCase()}">${d.status}</span></td>
+        <td>${d.testName}</td>
+        <td><code>${d.extraInfo || ""}</code></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>
