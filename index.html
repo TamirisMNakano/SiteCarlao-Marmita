@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marmitaria Sabor & Ponto - Chatbot de Pedidos com IA</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar: Menu do Dia e Carrinho -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">🍱</div>
+        <div class="brand-info">
+          <h1>Sabor & Ponto</h1>
+          <span class="status-badge"><span class="status-dot"></span> Atendimento Online com IA</span>
+        </div>
+      </div>
+
+      <!-- Configurações de API -->
+      <div class="api-card">
+        <div class="api-card-header">
+          <span class="api-title">🔑 Conexão Gemini AI (Client-Side)</span>
+          <button id="toggle-api-settings" class="btn-text">Configurar</button>
+        </div>
+        <div id="api-settings-panel" class="api-settings hidden">
+          <p class="api-help">Insira sua chave do Google Gemini para conversar com a LLM diretamente no seu navegador:</p>
+          <div class="input-group">
+            <input type="password" id="gemini-api-key" placeholder="AIzaSy..." autocomplete="off">
+            <button id="save-key-btn" class="btn-sm">Salvar</button>
+          </div>
+          <div class="api-status-info" id="api-status-text">Modo offline/simulado ativo caso não forneça chave.</div>
+        </div>
+      </div>
+
+      <!-- Cardápio por Dia da Semana -->
+      <div class="menu-section">
+        <div class="section-header">
+          <h2>📅 Cardápio por Dia</h2>
+          <select id="day-selector" class="day-select">
+            <option value="segunda">Segunda-feira</option>
+            <option value="terca">Terça-feira</option>
+            <option value="quarta">Quarta-feira</option>
+            <option value="quinta">Quinta-feira</option>
+            <option value="sexta">Sexta-feira</option>
+            <option value="sabado">Sábado</option>
+            <option value="domingo">Domingo</option>
+          </select>
+        </div>
+        <div id="menu-items-list" class="menu-items-list">
+          <!-- Renderizado via JS -->
+        </div>
+      </div>
+
+      <!-- Carrinho / Resumo do Pedido -->
+      <div class="order-summary-card">
+        <div class="summary-header">
+          <h3>🛒 Resumo do Pedido</h3>
+          <button id="clear-cart-btn" class="btn-clear" title="Limpar pedido">🗑️ Limpar</button>
+        </div>
+        <div id="order-items-list" class="order-items-list">
+          <p class="empty-cart-msg">Nenhum item adicionado ainda. Peça pelo chat ou clique em um prato!</p>
+        </div>
+        <div class="order-totals">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal-val">R$ 0,00</span>
+          </div>
+          <div class="total-row">
+            <span>Taxa de Entrega:</span>
+            <span id="delivery-val">R$ 7,00</span>
+          </div>
+          <div class="total-row total-highlight">
+            <span>Total com Entrega:</span>
+            <span id="total-val">R$ 7,00</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main: Chatbot Area -->
+    <main class="chat-container">
+      <header class="chat-header">
+        <div class="chat-header-info">
+          <h2>Assistente Virtual Marmitaria</h2>
+          <p>Peça sua marmita, personalize ponto e temperos (ex: sem cebola, bife bem passado) por texto!</p>
+        </div>
+        <div class="guardrail-badge" title="Proteção de segurança contra prompt injection ativa">
+          🛡️ Guardrails Ativos
+        </div>
+      </header>
+
+      <!-- Mensagens do Chat -->
+      <div class="chat-messages" id="chat-messages">
+        <!-- Renderizado via JS -->
+      </div>
+
+      <!-- Sugestões Rápidas -->
+      <div class="quick-prompts" id="quick-prompts">
+        <button class="chip" data-prompt="Quais são as marmitas disponíveis hoje e os preços?">📋 Ver pratos de hoje</button>
+        <button class="chip" data-prompt="Quero 1 Marmita Bife Acebolado com carne ao ponto e sem cebola">🥩 Bife sem cebola</button>
+        <button class="chip" data-prompt="Quero 1 Frango Grelhado com pouco sal e feijão separado">🍗 Frango pouco sal</button>
+        <button class="chip" data-prompt="Qual o valor total do meu pedido com entrega?">💰 Ver total do pedido</button>
+      </div>
+
+      <!-- Input do Chat -->
+      <form id="chat-form" class="chat-input-area">
+        <input 
+          type="text" 
+          id="chat-input" 
+          placeholder="Ex: Quero 1 Marmita Bife Acebolado bem passada e sem cebola..." 
+          autocomplete="off"
+          required
+        >
+        <button type="submit" id="send-btn" class="send-btn">
+          <span>Enviar</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+        </button>
+      </form>
+    </main>
+  </div>
+
+  <script src="menu-data.js"></script>
+  <script src="guardrails.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
